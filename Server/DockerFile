@@ -1,0 +1,2 @@
+FROM mysql:latest
+ADD coronomo.sql /docker-entrypoint-initdb.d/coronomo.sql

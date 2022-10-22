@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coronomo</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <header>
+        <img src="../static/icon.png" style="width: 40%">
+        <h1>CORONOMO</h1>
+        <br style="font-size: small">
+    </header>
+
+    <main>
+        {% if uploaded == False %}
+            <script>
+                alert("Coronomo was unable to upload your contacts to the server")
+            </script>
+        {% endif %}
+        <div class="tab card">
+            <input type="checkbox" id="chck">
+            <label class="tab-label" for="chck">Has a health official contacted you?</label>
+            <div class="tab-content">
+                <form action="positive">
+                    <input type="text" placeholder="Enter the One Time Code" name="otp">
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="separator"><a href="" style="color: inherit; text-decoration: inherit">Exposures</a></div>
+
+
+        {% if exposures|length > 0 %}
+            {% for date, period in exposures %}
+                {% if period == "< 15 minutes" %}
+                    <article class="card exposure-alert">
+                        <h2 style="margin-bottom: 0"> Potential Exposure Alert</h2>
+                        <p style="font-size: smaller; margin-top: 0">{{ date }}, exposed for {{ period }}</p>
+                        <p>You may have been near someone how tested positive for COVID-19. However, your risk of
+                            getting the virus is low. You do not need to take any action, but please get tested if
+                            you develop symptoms.</p>
+                    </article>
+                {% else %}
+                    <article class="card contact-alert">
+                        <h2 style="margin-bottom: 0"> Close Contact Alert</h2>
+                        <p style="font-size: smaller; margin-top: 0">{{ date }}, exposed for {{ period }}</p>
+                        <p>Coronomo has detected that you have been in close contact with someone who has tested positive for
+                            COVID-19. Please self-isolate and call 1800 020 080.</p>
+                    </article>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div id="no-contacts">Coronomo has not detected any COVID-19 contacts</div>
+        {% endif %}
+
+
+
+    </main>
+
+</body>
+</html>
